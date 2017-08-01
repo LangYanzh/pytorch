@@ -2723,8 +2723,8 @@ class TestNN(NNTestCase):
         batch_size = 2
         for kern, inp_size, dilations in [(3, 6, [1, 2]), (3, 7, [1]), (4, 9, [1])]:
             for stride, padding, chan_in, chan_out, dilation in \
-                    product([1, 2], [0, 2], [2], [3], dilations):
-                no_weight = stride == 2
+                    product([1, 2], [0, 1, 2], [2], [3], dilations):
+                no_weight = False
                 result = self.run_conv_double_back_test(kern, stride,
                                                         padding, chan_in, chan_out,
                                                         batch_size, inp_size, dilation,
@@ -2741,12 +2741,12 @@ class TestNN(NNTestCase):
                                 "\ndilation: " + str(dilation))
 
     def test_conv_double_backward_no_bias(self):
-        kern = 2
+        kern = 3
         stride = 2
-        chan_in, chan_out = 1, 1 # 2, 4
-        batch_size = 1
-        inp_size = 3
-        padding = 0
+        chan_in, chan_out = 2, 4
+        batch_size = 2
+        inp_size = 5
+        padding = 1
         dilation = 1
         no_weight = False
         use_bias = True
@@ -3316,7 +3316,6 @@ new_module_tests = [
         input_size=(2, 4, 10),
         cudnn=True,
         desc='stride',
-        check_gradgrad=False,
     ),
     dict(
         module_name='Conv1d',
@@ -3403,7 +3402,6 @@ new_module_tests = [
         input_size=(2, 3, 6, 6),
         cudnn=True,
         desc='strided',
-        check_gradgrad=False
     ),
     dict(
         module_name='Conv2d',
@@ -3411,7 +3409,6 @@ new_module_tests = [
         input_size=(2, 3, 6, 6),
         cudnn=True,
         desc='padding',
-        check_gradgrad=False
     ),
     dict(
         module_name='Conv2d',
@@ -3419,7 +3416,6 @@ new_module_tests = [
         input_size=(2, 3, 8, 8),
         cudnn=True,
         desc='dilated',
-        check_gradgrad=False,
     ),
     dict(
         module_name='Conv2d',
