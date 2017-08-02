@@ -371,7 +371,7 @@ void THNN_(SpatialConvolutionMM_accGradParameters)(
 
   THTensor_(free)(input);
   THTensor_(free)(gradOutput);
-  THTensor_(free)(gradWeight);
+  THTensor_(free)(gradWeight); // TODO: freeCopyTo gradWeight
 }
 
 #endif
